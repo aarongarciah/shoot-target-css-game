@@ -1,4 +1,8 @@
-# Shoot the Target! Pure HTML/CSS game
+# 🎯 Shoot the Target! Pure HTML/CSS game
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/9fcb8ff9-c803-40e2-a93f-4bfa94143e8a/deploy-status)](https://app.netlify.com/sites/shoot-target-css-game/deploys)
+
+Try it! https://shoot-target-css-game.netlify.com
 
 This game is made entirely with HTML and CSS. Shoot as many targets as you can!
 
