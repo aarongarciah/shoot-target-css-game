@@ -1,0 +1,259 @@
+:root {
+  --bullseye-points: 1;
+  --bullseye-special-points: 3;
+  --bullseye-size: 7rem;
+  --bullseye-shadow-size: 1rem;
+  --bullseye-total-size: calc(
+    var(--bullseye-size) + var(--bullseye-shadow-size) * 2
+  );
+  --bullseye-color: red;
+  --bullseye-special-color: gold;
+  --total-bullseye: 8;
+  --bullseye-animation-duration: 2.4s;
+  --score-delay: calc(
+    var(--bullseye-animation-duration) * var(--total-bullseye)
+  );
+  --bg-color: blue;
+  --text-color: white;
+  --accent-color: lime;
+
+  counter-reset: points;
+  cursor: url("data:image/svg+xml,%3Csvg viewBox='0 0 32 32' width='32' height='32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 0C7.163 0 0 7.164 0 16c0 8.837 7.164 16 16 16 8.837 0 16-7.163 16-16 0-8.836-7.163-16-16-16zm1.302 28.958v-7.19h-2.605v7.19c-6.152-.61-11.044-5.503-11.655-11.656h7.19v-2.605h-7.19C3.653 8.545 8.545 3.652 14.697 3.042v7.19h2.605v-7.19c6.154.61 11.046 5.503 11.657 11.655h-7.192v2.605h7.192c-.611 6.153-5.503 11.045-11.657 11.656z' fill='%2300FF00'/%3E%3C/svg%3E")
+      16 16,
+    crosshair;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  cursor: inherit;
+}
+
+body {
+  padding: 1rem;
+  overflow: hidden;
+  font-family: "Press Start 2P", monospace, sans-serif;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  user-select: none;
+}
+
+#start {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  text-align: center;
+  text-decoration: none;
+  color: var(--text-color);
+  text-shadow: 0.08em 0.08em 0 red;
+  background-color: var(--bg-color);
+}
+
+#stage:target #start {
+  display: none;
+}
+
+.start-text {
+  animation: pulse 1.2s ease-out infinite;
+}
+
+.start-emoji {
+  display: inline-block;
+  margin-left: 0.5em;
+  font-size: 1.4em;
+  text-shadow: none;
+}
+
+.bullseye-input {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+}
+
+.bullseye-input:checked {
+  counter-increment: points var(--bullseye-points);
+}
+
+.bullseye-input.special:checked {
+  counter-increment: points var(--bullseye-special-points);
+}
+
+.bullseye {
+  --points: var(--bullseye-points);
+  position: absolute;
+  top: calc(-1 * var(--bullseye-total-size));
+  animation-timing-function: ease-out;
+  animation-duration: var(--bullseye-animation-duration);
+  animation-delay: calc(
+    var(--bullseye-animation-duration) * (var(--index) - 1)
+  );
+}
+
+#stage:target .bullseye {
+  animation-name: bullseye-movement;
+}
+
+.bullseye:nth-of-type(1) {
+  --index: 1;
+  left: 70%;
+}
+
+.bullseye:nth-of-type(2) {
+  --index: 2;
+  left: 10%;
+}
+
+.bullseye:nth-of-type(3) {
+  --index: 3;
+  left: 80%;
+}
+
+.bullseye:nth-of-type(4) {
+  --index: 4;
+  left: 55%;
+}
+
+.bullseye:nth-of-type(5) {
+  --index: 5;
+  left: 5%;
+}
+
+.bullseye:nth-of-type(6) {
+  --index: 6;
+  left: 35%;
+}
+
+.bullseye:nth-of-type(7) {
+  --index: 7;
+  left: 40%;
+}
+
+.bullseye:nth-of-type(8) {
+  --index: 8;
+  left: 85%;
+}
+
+.bullseye-input:checked + .bullseye {
+  animation-play-state: paused;
+  pointer-events: none;
+}
+
+.bullseye.special {
+  --points: var(--bullseye-special-points);
+}
+
+.bullseye:before {
+  --color: var(--bullseye-color);
+  content: "";
+  display: block;
+  width: var(--bullseye-size);
+  height: var(--bullseye-size);
+  border-radius: 50%;
+  background-image: radial-gradient(
+    closest-side,
+    var(--color) 20%,
+    white 0,
+    white 40%,
+    var(--color) 0,
+    var(--color) 60%,
+    white 0,
+    white 80%,
+    var(--color) 0
+  );
+  box-shadow: 4px 4px var(--bullseye-shadow-size) rgba(0, 0, 0, 0.4);
+}
+
+.bullseye.special:before {
+  --color: var(--bullseye-special-color);
+}
+
+.bullseye-input:checked + .bullseye:before {
+  --color: grey;
+  animation: bullseye-fadeout 0.8s ease-in-out forwards;
+}
+
+.bullseye:after {
+  /* This lines converts a numeric custom property to a string to be used in the `content` property */
+  counter-reset: _bullseye-points var(--points);
+  content: "+" counter(_bullseye-points);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 1.7rem;
+  text-shadow: 0.08em 0.08em 0 var(--accent-color);
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+
+.bullseye-input:checked + .bullseye:after {
+  animation: points-up 1.5s forwards;
+}
+
+#score {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--accent-color);
+  text-shadow: 0.08em 0.08em 0 red;
+  pointer-events: none;
+}
+
+#stage:target #score {
+  animation: score-end 0.4s ease-in-out var(--score-delay) forwards;
+}
+
+#score:before {
+  content: counter(points);
+}
+
+@keyframes bullseye-fadeout {
+  12% {
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes points-up {
+  10% {
+    transform: translate(-50%, calc(-50% - 3rem));
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes bullseye-movement {
+  100% {
+    transform: translateY(calc(102vh + var(--bullseye-total-size)));
+  }
+}
+
+@keyframes score-end {
+  100% {
+    transform: translateY(calc(100% - 50vh)) scale(2.2);
+  }
+}
+
+@keyframes pulse {
+  30% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+}
