@@ -1,4 +1,4 @@
-![Shoot the Target! Pure HTML/CSS Game](.github/shoot-the-target.jpg)
+[![Shoot the Target! Pure HTML/CSS Game](.github/shoot-the-target.jpg)](https://shoot-target-css-game.netlify.com)
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/9fcb8ff9-c803-40e2-a93f-4bfa94143e8a/deploy-status)](https://app.netlify.com/sites/shoot-target-css-game/deploys)
 
